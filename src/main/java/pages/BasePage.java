@@ -4,11 +4,22 @@ import org.openqa.selenium.WebDriver;
 
 public class BasePage {
 
-    static WebDriver driver;
+//    static WebDriver driver;
+//
+//    public static void setDriver(WebDriver wd) {
+//        driver = wd;
+//    }
 
-    public static void setDriver(WebDriver wd) {
-        driver = wd;
+    private WebDriver driver;
+
+    public WebDriver getDriver() {
+        return driver;
     }
+
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
+    }
+
 
     public void pause(int time) {
         try {

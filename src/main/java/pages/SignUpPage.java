@@ -1,5 +1,6 @@
 package pages;
 
+import dto.UserDTO;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -31,11 +32,11 @@ public class SignUpPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     WebElement btnYalla;
 
-    public void typeRegistrationForm(String name, String lastName, String email, String password) {
-        inputName.sendKeys(name);
-        inputLastName.sendKeys(lastName);
-        inputEmail.sendKeys(email);
-        inputPassword.sendKeys(password);
+    public  void typeRegistrationForm(UserDTO user) {
+        inputName.sendKeys(user.getName());
+        inputLastName.sendKeys(user.getLastName());
+        inputEmail.sendKeys(user.getEmail());
+        inputPassword.sendKeys(user.getPassword());
         checkbox.click();
         btnYalla.click();
     }
