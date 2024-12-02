@@ -3,6 +3,7 @@ package pages;
 import dto.UserDTO;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
@@ -14,31 +15,47 @@ public class SignUpPage extends BasePage {
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
-    @FindBy(xpath = "//input[@id='name']")
+    @FindBy(id="name")
     WebElement inputName;
 
-    @FindBy(xpath = "//input[@id='lastName']")
+    @FindBy(id="lastName")
     WebElement inputLastName;
 
-    @FindBy(xpath = "//input[@id='email']")
+    @FindBy(id="email")
     WebElement inputEmail;
 
-    @FindBy(xpath = "//input[@id='password']")
+    @FindBy(id="password")
     WebElement inputPassword;
 
-    @FindBy(xpath = "//label[@for='terms-of-use']")
-    WebElement checkbox;
-
-    @FindBy(xpath = "//button[@type='submit']")
-    WebElement btnYalla;
-
-    public  void typeRegistrationForm(UserDTO user) {
+    public void typeRegistrationForm(UserDTO user) {
         inputName.sendKeys(user.getName());
         inputLastName.sendKeys(user.getLastName());
         inputEmail.sendKeys(user.getEmail());
         inputPassword.sendKeys(user.getPassword());
-        checkbox.click();
+    }
+
+    @FindBy(xpath = "//label[@for='terms-of-use']")
+    WebElement checkbox;
+
+    public void clickCheckbox() {
+        int widthCheckbox = checkbox.getRect().getWidth();
+        int heightCheckbox = checkbox.getRect().getHeight();
+        Actions actions = new Actions(driver);
+        actions.moveToElement(checkbox, - widthCheckbox / 3, - heightCheckbox / 4).click().perform();
+    }
+
+    @FindBy(xpath = "//button[@type='submit']")
+    WebElement btnYalla;
+
+    public void clickBtnYalla() {
         btnYalla.click();
+    }
+
+    @FindBy(xpath = "//h2[@class='message']")
+    WebElement popUpMessage;
+
+    public boolean isPopUpMessagePresent() {
+        return isTextInElementPresent(popUpMessage, "You are logged in success");
     }
 
 }

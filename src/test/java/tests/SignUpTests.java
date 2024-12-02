@@ -2,7 +2,7 @@ package tests;
 
 import dto.UserDTO;
 import manager.ApplicationManager;
-import org.testng.annotations.BeforeMethod;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.SignUpPage;
@@ -11,17 +11,23 @@ import java.util.Random;
 
 public class SignUpTests extends ApplicationManager {
 
-    @BeforeMethod
-    public UserDTO userCreation() {
-        int randomInt = new Random().nextInt(1000);
-        return new UserDTO("Test", "Tester",
-                "testemail" + randomInt + "@example.com", "Password123!");
-    }
+    SignUpPage signUpPage;
 
     @Test
     public void signUpPositiveTests() {
+        int randomInt = new Random().nextInt(1000) + 1000;
+        UserDTO user = UserDTO.builder()
+                .name("Test")
+                .lastName("Test")
+                .email("test" + randomInt + "@example.com")
+                .password("Test999!")
+                .build();
         new HomePage(getDriver()).clickBtnSignUpHeader();
-        new SignUpPage(getDriver()).typeRegistrationForm(userCreation());
+        signUpPage = new SignUpPage(getDriver());
+        signUpPage.typeRegistrationForm(user);
+        signUpPage.clickCheckbox();
+        signUpPage.clickBtnYalla();
+        Assert.assertTrue(signUpPage.isPopUpMessagePresent());
     }
 
 }
