@@ -19,7 +19,6 @@ public class HomePage extends BasePage {
 
     public void clickBtnSignUpHeader() {
         btnSignUp.click();
-        pause(1);
     }
 
     @FindBy(xpath = "//a[@ng-reflect-router-link='login']")
@@ -27,7 +26,6 @@ public class HomePage extends BasePage {
 
     public void clickBtnLogInHeader() {
     btnLogIn.click();
-    pause(1);
     }
 
 }

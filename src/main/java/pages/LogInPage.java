@@ -9,8 +9,6 @@ import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 public class LogInPage extends BasePage {
 
-    String GOODRESPONSE = "Logged in success";
-
     public LogInPage(WebDriver driver) {
         setDriver(driver);
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
@@ -27,7 +25,7 @@ public class LogInPage extends BasePage {
         inputPassword.sendKeys(user.getPassword());
     }
 
-    @FindBy(xpath = "//button[text()='Y’alla!']")
+    @FindBy(xpath = "//button[@type='submit']")
     WebElement btnYalla;
 
     public void clickBtnYalla() {
@@ -37,8 +35,16 @@ public class LogInPage extends BasePage {
     @FindBy(xpath = "//h2[@class='message']")
     WebElement popUpMessage;
 
-    public boolean isPopUpMessagePresent() {
-        return popUpMessage.getText().equals(GOODRESPONSE);
+    public boolean isPopUpMessagePresent(String text) {
+        return isTextInElementPresent(popUpMessage, text);
+    }
+
+    @FindBy(xpath = "//div[@class='error']")
+    WebElement errorMessage;
+
+    public boolean validateErrorMessage(String text) {
+        pause(1);
+        return isTextInElementPresent(errorMessage, text);
     }
 
 }
