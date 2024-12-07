@@ -58,4 +58,16 @@ public class SignUpPage extends BasePage {
         return isTextInElementPresent(popUpMessage, "You are logged in success");
     }
 
+    public boolean isPopUpFailedMessagePresent() {
+        return isTextInElementPresent(popUpMessage, "User already exists");
+    }
+
+    @FindBy(xpath = "//div[@class='error']")
+    WebElement errorMessage;
+
+    public boolean validateErrorMessage(String text) {
+        pause(1);
+        return isTextInElementPresent(errorMessage, text);
+    }
+
 }
