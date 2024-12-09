@@ -51,22 +51,21 @@ public class SignUpPage extends BasePage {
         btnYalla.click();
     }
 
+    public boolean btnYallaDisabled() {
+        return !btnYalla.isEnabled();
+    }
+
     @FindBy(xpath = "//h2[@class='message']")
     WebElement popUpMessage;
 
-    public boolean isPopUpMessagePresent() {
-        return isTextInElementPresent(popUpMessage, "You are logged in success");
-    }
-
-    public boolean isPopUpFailedMessagePresent() {
-        return isTextInElementPresent(popUpMessage, "User already exists");
+    public boolean isPopUpMessagePresent(String text) {
+        return isTextInElementPresent(popUpMessage, text);
     }
 
     @FindBy(xpath = "//div[@class='error']")
     WebElement errorMessage;
 
     public boolean validateErrorMessage(String text) {
-        pause(1);
         return isTextInElementPresent(errorMessage, text);
     }
 

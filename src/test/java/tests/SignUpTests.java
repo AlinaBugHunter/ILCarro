@@ -33,7 +33,7 @@ public class SignUpTests extends ApplicationManager {
         signUpPage.typeRegistrationForm(user);
         signUpPage.clickCheckbox();
         signUpPage.clickBtnYalla();
-        Assert.assertTrue(signUpPage.isPopUpMessagePresent());
+        Assert.assertTrue(signUpPage.isPopUpMessagePresent("You are logged in success"));
     }
 
     @Test
@@ -107,6 +107,7 @@ public class SignUpTests extends ApplicationManager {
         signUpPage = new SignUpPage(getDriver());
         signUpPage.typeRegistrationForm(user);
         signUpPage.clickBtnYalla();
+        Assert.assertTrue(signUpPage.btnYallaDisabled());
     }
 
     // TODO: Create Bug Report
@@ -168,7 +169,7 @@ public class SignUpTests extends ApplicationManager {
         signUpPage.typeRegistrationForm(user);
         signUpPage.clickCheckbox();
         signUpPage.clickBtnYalla();
-        Assert.assertTrue(signUpPage.isPopUpFailedMessagePresent());
+        Assert.assertTrue(signUpPage.isPopUpMessagePresent("User already exists"));
     }
 
     @Test
@@ -248,6 +249,66 @@ public class SignUpTests extends ApplicationManager {
         signUpPage.clickBtnYalla();
         Assert.assertTrue(signUpPage.validateErrorMessage("Password must contain 1 uppercase letter, " +
                 "1 lowercase letter, 1 number and one special symbol of [@$#^&*!]"));
+    }
+
+    @Test
+    public void signUpNegativeTest_nameSpace() {
+        UserDTO user = UserDTO.builder()
+                .name(" ")
+                .lastName("Test")
+                .email("test" + randomInt + "@example.com")
+                .password("Test999!")
+                .build();
+        signUpPage = new SignUpPage(getDriver());
+        signUpPage.typeRegistrationForm(user);
+        signUpPage.clickCheckbox();
+        signUpPage.clickBtnYalla();
+        Assert.assertTrue(signUpPage.isPopUpMessagePresent("must not be blank"));
+    }
+
+    @Test
+    public void signUpNegativeTest_lastNameSpace() {
+        UserDTO user = UserDTO.builder()
+                .name("Test")
+                .lastName(" ")
+                .email("test" + randomInt + "@example.com")
+                .password("Test999!")
+                .build();
+        signUpPage = new SignUpPage(getDriver());
+        signUpPage.typeRegistrationForm(user);
+        signUpPage.clickCheckbox();
+        signUpPage.clickBtnYalla();
+        Assert.assertTrue(signUpPage.isPopUpMessagePresent("must not be blank"));
+    }
+
+    @Test
+    public void signUpNegativeTest_emailSpace() {
+        UserDTO user = UserDTO.builder()
+                .name("Test")
+                .lastName("Test")
+                .email(" ")
+                .password("Test999!")
+                .build();
+        signUpPage = new SignUpPage(getDriver());
+        signUpPage.typeRegistrationForm(user);
+        signUpPage.clickCheckbox();
+        signUpPage.clickBtnYalla();
+        Assert.assertTrue(signUpPage.validateErrorMessage("Email is required"));
+    }
+
+    @Test
+    public void signUpNegativeTest_passwordSpace() {
+        UserDTO user = UserDTO.builder()
+                .name("Test")
+                .lastName("Test")
+                .email("test" + randomInt + "@example.com")
+                .password(" ")
+                .build();
+        signUpPage = new SignUpPage(getDriver());
+        signUpPage.typeRegistrationForm(user);
+        signUpPage.clickCheckbox();
+        signUpPage.clickBtnYalla();
+        Assert.assertTrue(signUpPage.validateErrorMessage("Password must contain minimum 8 symbols"));
     }
 
 }
