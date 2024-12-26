@@ -2,23 +2,24 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage {
 
-//    static WebDriver driver;
-//    public static void setDriver(WebDriver wd) {
-//        driver = wd;
-//    }
+    static WebDriver driver;
 
-    WebDriver driver;
-
-    public WebDriver getDriver() {
-        return driver;
+    public static void setDriver(WebDriver wd) {
+        driver = wd;
     }
 
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
-    }
+    // LOCATORS
+
+    @FindBy(xpath = "//h2[@class='message']")
+    WebElement popUpMessage;
+
+    // METHODS
 
     public void pause(int time) {
         try {
@@ -30,6 +31,19 @@ public class BasePage {
 
     public boolean isTextInElementPresent(WebElement element, String text) {
         return element.getText().contains(text);
+    }
+
+    public void clickWait(WebElement element, int time) {
+        try {
+            new WebDriverWait(driver, time)
+                    .until(ExpectedConditions.elementToBeClickable(element)).click();
+        } catch (Exception e) {
+            System.out.println("clickWait() Created Exception");
+        }
+    }
+
+    public boolean validateURL(String url, int time){
+        return new WebDriverWait(driver, time).until(ExpectedConditions.urlContains(url));
     }
 
 }

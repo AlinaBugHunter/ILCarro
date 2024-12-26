@@ -15,6 +15,8 @@ public class SignUpPage extends BasePage {
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
+    // SIGNUP FORM
+
     @FindBy(id="name")
     WebElement inputName;
 
@@ -54,6 +56,8 @@ public class SignUpPage extends BasePage {
     public boolean btnYallaDisabled() {
         return !btnYalla.isEnabled();
     }
+
+    // POPUP & ERROR MESSAGE
 
     @FindBy(xpath = "//h2[@class='message']")
     WebElement popUpMessage;

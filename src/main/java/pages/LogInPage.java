@@ -14,37 +14,55 @@ public class LogInPage extends BasePage {
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
+    // LOGIN FORM
+
     @FindBy(id="email")
     WebElement inputEmail;
 
     @FindBy(id="password")
     WebElement inputPassword;
 
-    public void typeLogInForm(UserDTO user) {
-        inputEmail.sendKeys(user.getEmail());
-        inputPassword.sendKeys(user.getPassword());
-    }
-
     @FindBy(xpath = "//button[@type='submit']")
     WebElement btnYalla;
 
-    public void clickBtnYalla() {
+    public void typeLogInForm(UserDTO user) {
+        inputEmail.sendKeys(user.getEmail());
+        inputPassword.sendKeys(user.getPassword());
         btnYalla.click();
     }
 
-    @FindBy(xpath = "//h2[@class='message']")
-    WebElement popUpMessage;
+    // POPUP MESSAGE
 
     public boolean isPopUpMessagePresent(String text) {
         return isTextInElementPresent(popUpMessage, text);
     }
 
+    @FindBy(xpath = "//button[@type='button']")
+    WebElement btnOK;
+
+    public void clickBtnOK() {
+        clickWait(btnOK, 5);
+    }
+
+    // ERROR MESSAGE
+
     @FindBy(xpath = "//div[@class='error']")
     WebElement errorMessage;
 
     public boolean validateErrorMessage(String text) {
-        pause(1);
+        pause(2);
         return isTextInElementPresent(errorMessage, text);
+    }
+
+    // LET THE CAR WORK PAGE
+
+    @FindBy(xpath = "//a[@id='1']")
+    WebElement btnLetCarWork;
+
+    public void clickBtnLetCarWork() {
+        pause(3);
+        btnLetCarWork.click();
+//        clickWait(btnLetCarWork, 3);
     }
 
 }

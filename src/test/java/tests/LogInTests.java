@@ -25,7 +25,6 @@ public class LogInTests extends ApplicationManager {
                 .build();
         logInPage = new LogInPage(getDriver());
         logInPage.typeLogInForm(user);
-        logInPage.clickBtnYalla();
         Assert.assertTrue(logInPage.isPopUpMessagePresent("Logged in success"));
     }
 
@@ -37,7 +36,6 @@ public class LogInTests extends ApplicationManager {
                 .build();
         logInPage = new LogInPage(getDriver());
         logInPage.typeLogInForm(user);
-        logInPage.clickBtnYalla();
         Assert.assertTrue(logInPage.validateErrorMessage("It'snot look like email"));
     }
 
@@ -49,7 +47,6 @@ public class LogInTests extends ApplicationManager {
                 .build();
         logInPage = new LogInPage(getDriver());
         logInPage.typeLogInForm(user);
-        logInPage.clickBtnYalla();
         Assert.assertTrue(logInPage.isPopUpMessagePresent("Login or Password incorrect"));
     }
 
@@ -61,7 +58,6 @@ public class LogInTests extends ApplicationManager {
                 .build();
         logInPage = new LogInPage(getDriver());
         logInPage.typeLogInForm(user);
-        logInPage.clickBtnYalla();
         Assert.assertTrue(logInPage.validateErrorMessage("Password is required"));
     }
 
