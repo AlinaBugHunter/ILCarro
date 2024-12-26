@@ -10,6 +10,7 @@ import pages.HomePage;
 import pages.LetTheCarWorkPage;
 import pages.LogInPage;
 import utils.Fuel;
+import utils.RetryAnalyzer;
 
 import java.util.Random;
 
@@ -35,7 +36,7 @@ public class AddNewCarTests extends ApplicationManager {
         }
     }
 
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     public void addNewCarPositiveTest() {
         CarDTO car = CarDTO.builder()
                 .serialNumber(new Random().nextInt(1000) + "-055")
