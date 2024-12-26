@@ -85,6 +85,8 @@ public class HomePage extends BasePage {
         driver.findElement(By.xpath("//div[contains(text(), '" + month + "')]")).click();
         driver.findElement(By.xpath("//div[contains(text(), '" + day + "')]")).click();
         clickWait(btnYalla, 5);
+        //inputDates.sendKeys(Keys.ENTER);
+
     }
 
     private String convertNumberToMonth(String month) {
