@@ -9,6 +9,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
+import java.time.DateTimeException;
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 public class HomePage extends BasePage {
 
     public HomePage(WebDriver driver) {
@@ -89,22 +94,13 @@ public class HomePage extends BasePage {
 
     }
 
-    private String convertNumberToMonth(String month) {
-        switch (month) {
-            case "01": return "JAN";
-            case "02": return "FEB";
-            case "03": return "MAR";
-            case "04": return "APR";
-            case "05": return "MAY";
-            case "06": return "JUN";
-            case "07": return "JUL";
-            case "08": return "AUG";
-            case "09": return "SEP";
-            case "10": return "OCT";
-            case "11": return "NOV";
-            case "12": return "DEC";
-            default: return month;
+    public String convertNumberToMonth(String month) {
+        try {
+            int monthNumber = Integer.parseInt(month); // Convert the string to an integer
+            Month monthEnum = Month.of(monthNumber); // Get the month from the Month class
+            return monthEnum.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toUpperCase(); // Get the month abbreviation in English
+        } catch (NumberFormatException | DateTimeException e) {
+            return month;
         }
     }
-
 }
