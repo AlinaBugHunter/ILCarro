@@ -11,25 +11,25 @@ public class SearchCarTests extends ApplicationManager {
     HomePage homePage;
 
     @Test
-    public void searchCarPositiveTest() {
+    public void searchCarPositiveTest_WOCalendar() {
         homePage = new HomePage(getDriver());
-        homePage.fillSearchCarFormWOCalendar("Haifa", "12/26/2024", "12/27/2024");
+        homePage.fillSearchCarFormWOCalendar("Haifa", "12/28/2024", "12/31/2024");
         Assert.assertTrue(new ResultsPage(getDriver()).isURLResultsPresent());
     }
 
     @Test
-    public void searchCarPositiveTestWithCalendar() {
-        logger.info("Start test searchCarPositiveTestWithCalendar() with data -> " + "Haifa" + " 12/26/2024 " + "12/27/2024");
+    public void searchCarPositiveTest_WithCalendar() {
+        logger.info("Start test searchCarPositiveTestWithCalendar() with data -> " + "Haifa" + " 02/27/2025 " + "03/15/2025");
         homePage = new HomePage(getDriver());
-        homePage.fillSearchCarFormWithCalendar("Haifa", "12/26/2024", "12/27/2024");
+        homePage.fillSearchCarFormWithCalendar("Haifa", "02/27/2025", "03/15/2025");
         Assert.assertTrue(new ResultsPage(getDriver()).isURLResultsPresent());
     }
 
-//    @Test
-//    public void searchCarNegativeTest_emptyCity() {
-//        homePage = new HomePage(getDriver());
-//        homePage.fillSearchCarFormWOCalendar("", "12/26/2024", "12/27/2024");
-//        Assert.assertTrue(homePage.isElementPresentDOM("//*[text()=' City is required ']"));
-//    }
+    @Test
+    public void searchCarNegativeTest_emptyCity() {
+        homePage = new HomePage(getDriver());
+        homePage.fillSearchCarFormWOCalendar("", "02/27/2025", "03/15/2025");
+        Assert.assertTrue(homePage.isElementPresentDOM("//*[text()=' City is required ']", 3));
+    }
 
 }

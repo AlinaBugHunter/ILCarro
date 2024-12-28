@@ -36,7 +36,7 @@ public class AddNewCarTests extends ApplicationManager {
         }
     }
 
-    @Test(retryAnalyzer = RetryAnalyzer.class)
+    @Test
     public void addNewCarPositiveTest() {
         CarDTO car = CarDTO.builder()
                 .serialNumber(new Random().nextInt(1000) + "-055")
@@ -54,6 +54,25 @@ public class AddNewCarTests extends ApplicationManager {
         letTheCarWorkPage.typeLetCarWorkForm(car);
         Assert.assertTrue(letTheCarWorkPage
                 .isPopUpMessagePresent(car.getManufacture() + " " + car.getModel() + " added successful"));
+    }
+
+    @Test(retryAnalyzer = RetryAnalyzer.class)
+    public void addNewCarNegativeTest_emptyManufacture() {
+        CarDTO car = CarDTO.builder()
+                .serialNumber(new Random().nextInt(1000) + "-055")
+                .city("Haifa")
+                .manufacture("")
+                .model("CX-90")
+                .year("2022")
+                .fuel(Fuel.HYBRID.getLocator())
+                .seats(4)
+                .carClass("A")
+                .pricePerDay(123.99)
+                .about("About my car")
+                .build();
+        letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
+        letTheCarWorkPage.typeLetCarWorkForm(car);
+        Assert.assertTrue(letTheCarWorkPage.isElementPresentDOM("//*[text()=' Make is required ']", 3));
     }
 
 }
