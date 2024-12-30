@@ -1,5 +1,6 @@
 package tests;
 
+import data_providers.CarDP;
 import dto.CarDTO;
 import dto.UserDTO;
 import manager.ApplicationManager;
@@ -50,6 +51,14 @@ public class AddNewCarTests extends ApplicationManager {
                 .pricePerDay(123.99)
                 .about("About my car")
                 .build();
+        letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
+        letTheCarWorkPage.typeLetCarWorkForm(car);
+        Assert.assertTrue(letTheCarWorkPage
+                .isPopUpMessagePresent(car.getManufacture() + " " + car.getModel() + " added successful"));
+    }
+
+    @Test(dataProvider = "CarDPFile", dataProviderClass = CarDP.class)
+    public void addNewCarPositiveTestDP(CarDTO car) {
         letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
         letTheCarWorkPage.typeLetCarWorkForm(car);
         Assert.assertTrue(letTheCarWorkPage
