@@ -4,9 +4,13 @@ import dto.UserDTO;
 import manager.ApplicationManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LogInPage;
+import utils.TestNGListener;
+
+@Listeners(TestNGListener.class)
 
 public class LogInTests extends ApplicationManager {
 

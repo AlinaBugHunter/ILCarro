@@ -15,8 +15,8 @@
     <!-- input to file -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>test_logs/log-${bySecond}.log</file>
-        <maxHistory>5</maxHistory>  <!-- keep log file 5 days -->
-        <totalSizeCap>10GB</totalSizeCap> <!-- max total size 10 gb -->
+        <maxHistory>2</maxHistory>  <!-- keep log file 2 days -->
+        <totalSizeCap>5GB</totalSizeCap> <!-- max total size 5 gb -->
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
