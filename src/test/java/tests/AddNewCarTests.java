@@ -6,14 +6,19 @@ import dto.UserDTO;
 import manager.ApplicationManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LetTheCarWorkPage;
 import pages.LogInPage;
 import utils.Fuel;
 import utils.RetryAnalyzer;
+import utils.TestNGListener;
 
+import java.lang.reflect.Method;
 import java.util.Random;
+
+@Listeners(TestNGListener.class)
 
 public class AddNewCarTests extends ApplicationManager {
 
@@ -58,7 +63,8 @@ public class AddNewCarTests extends ApplicationManager {
     }
 
     @Test(dataProvider = "CarDPFile", dataProviderClass = CarDP.class)
-    public void addNewCarPositiveTestDP(CarDTO car) {
+    public void addNewCarPositiveTestDP(CarDTO car, Method method) {
+        logger.info(method.getName() + " Start with data -> " + car.toString());
         letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
         letTheCarWorkPage.typeLetCarWorkForm(car);
         Assert.assertTrue(letTheCarWorkPage
