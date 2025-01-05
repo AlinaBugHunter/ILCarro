@@ -65,4 +65,8 @@ public class LogInPage extends BasePage {
 //        clickWait(btnLetCarWork, 3);
     }
 
+    public boolean btnYallaDisabled() {
+        return !btnYalla.isEnabled();
+    }
+
 }
