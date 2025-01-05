@@ -2,6 +2,7 @@ package tests;
 
 import dto.UserDTO;
 import manager.ApplicationManager;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -9,8 +10,8 @@ import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.SignUpPage;
 import utils.TestNGListener;
-
 import java.util.Random;
+import static utils.TakeScreenShot.*;
 
 @Listeners(TestNGListener.class)
 
@@ -37,6 +38,7 @@ public class SignUpTests extends ApplicationManager {
         signUpPage.typeRegistrationForm(user);
         signUpPage.clickCheckbox();
         signUpPage.clickBtnYalla();
+        takeScreenShot((TakesScreenshot) getDriver());
         Assert.assertTrue(signUpPage.isPopUpMessagePresent("You are logged in success"));
     }
 

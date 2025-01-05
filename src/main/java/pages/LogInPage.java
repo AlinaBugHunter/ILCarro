@@ -31,6 +31,10 @@ public class LogInPage extends BasePage {
         btnYalla.click();
     }
 
+    public boolean btnYallaDisabled() {
+        return !btnYalla.isEnabled();
+    }
+
     // POPUP MESSAGE
 
     public boolean isPopUpMessagePresent(String text) {
@@ -63,10 +67,6 @@ public class LogInPage extends BasePage {
         pause(3);
         btnLetCarWork.click();
 //        clickWait(btnLetCarWork, 3);
-    }
-
-    public boolean btnYallaDisabled() {
-        return !btnYalla.isEnabled();
     }
 
 }

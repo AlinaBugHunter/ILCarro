@@ -2,20 +2,21 @@ package tests;
 
 import dto.UserDTO;
 import manager.ApplicationManager;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.LogInPage;
 import utils.TestNGListener;
+
+import static utils.TakeScreenShot.takeScreenShot;
 
 @Listeners(TestNGListener.class)
 
 public class LogInTests extends ApplicationManager {
 
-    SoftAssert softAssert = new SoftAssert();
     LogInPage logInPage;
 
     @BeforeMethod
@@ -42,6 +43,7 @@ public class LogInTests extends ApplicationManager {
                 .build();
         logInPage = new LogInPage(getDriver());
         logInPage.typeLogInForm(user);
+        takeScreenShot((TakesScreenshot) getDriver());
         Assert.assertTrue(logInPage.validateErrorMessage("It'snot look like email"));
     }
 

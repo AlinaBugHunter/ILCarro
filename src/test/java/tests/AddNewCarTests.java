@@ -4,6 +4,7 @@ import data_providers.CarDP;
 import dto.CarDTO;
 import dto.UserDTO;
 import manager.ApplicationManager;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -16,6 +17,8 @@ import utils.Fuel;
 import utils.RetryAnalyzer;
 import utils.TestNGListener;
 import java.util.Random;
+
+import static utils.TakeScreenShot.takeScreenShot;
 
 @Listeners(TestNGListener.class)
 
@@ -156,6 +159,7 @@ public class AddNewCarTests extends ApplicationManager {
                 .build();
         letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
         letTheCarWorkPage.typeLetCarWorkForm(car);
+        takeScreenShot((TakesScreenshot) getDriver());
         Assert.assertTrue(letTheCarWorkPage.validateErrorMessage("Wrong address"));
     }
 

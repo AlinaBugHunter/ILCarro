@@ -1,12 +1,15 @@
 package tests;
 
 import manager.ApplicationManager;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.ResultsPage;
 import utils.TestNGListener;
+
+import static utils.TakeScreenShot.takeScreenShot;
 
 @Listeners(TestNGListener.class)
 
@@ -17,7 +20,8 @@ public class SearchCarTests extends ApplicationManager {
     @Test
     public void searchCarPositiveTest_WOCalendar() {
         homePage = new HomePage(getDriver());
-        homePage.fillSearchCarFormWOCalendar("Haifa", "12/28/2024", "12/31/2024");
+        homePage.fillSearchCarFormWOCalendar("Haifa", "02/27/2025", "02/28/2025");
+        takeScreenShot((TakesScreenshot) getDriver());
         Assert.assertTrue(new ResultsPage(getDriver()).isURLResultsPresent());
     }
 
