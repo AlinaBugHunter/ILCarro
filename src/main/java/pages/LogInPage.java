@@ -16,10 +16,10 @@ public class LogInPage extends BasePage {
 
     // LOGIN FORM
 
-    @FindBy(id="email")
+    @FindBy(id = "email")
     WebElement inputEmail;
 
-    @FindBy(id="password")
+    @FindBy(id = "password")
     WebElement inputPassword;
 
     @FindBy(xpath = "//button[@type='submit']")

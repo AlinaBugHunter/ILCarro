@@ -40,7 +40,7 @@ public class BasePage {
         }
     }
 
-    public boolean validateURL(String url, int time){
+    public boolean validateURL(String url, int time) {
         return new WebDriverWait(driver, time).until(ExpectedConditions.urlContains(url));
     }
 

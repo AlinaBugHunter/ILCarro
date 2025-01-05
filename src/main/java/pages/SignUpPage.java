@@ -17,16 +17,16 @@ public class SignUpPage extends BasePage {
 
     // SIGNUP FORM
 
-    @FindBy(id="name")
+    @FindBy(id = "name")
     WebElement inputName;
 
-    @FindBy(id="lastName")
+    @FindBy(id = "lastName")
     WebElement inputLastName;
 
-    @FindBy(id="email")
+    @FindBy(id = "email")
     WebElement inputEmail;
 
-    @FindBy(id="password")
+    @FindBy(id = "password")
     WebElement inputPassword;
 
     public void typeRegistrationForm(UserDTO user) {
@@ -43,7 +43,7 @@ public class SignUpPage extends BasePage {
         int widthCheckbox = checkbox.getRect().getWidth();
         int heightCheckbox = checkbox.getRect().getHeight();
         Actions actions = new Actions(driver);
-        actions.moveToElement(checkbox, - widthCheckbox / 3, - heightCheckbox / 4).click().perform();
+        actions.moveToElement(checkbox, -widthCheckbox / 3, -heightCheckbox / 4).click().perform();
     }
 
     @FindBy(xpath = "//button[@type='submit']")

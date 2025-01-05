@@ -16,9 +16,10 @@ import pages.LogInPage;
 import utils.Fuel;
 import utils.RetryAnalyzer;
 import utils.TestNGListener;
+
 import java.util.Random;
 
-import static utils.TakeScreenShot.takeScreenShot;
+import static utils.TakeScreenShot.*;
 
 @Listeners(TestNGListener.class)
 

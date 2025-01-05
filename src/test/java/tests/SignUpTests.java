@@ -10,7 +10,9 @@ import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.SignUpPage;
 import utils.TestNGListener;
+
 import java.util.Random;
+
 import static utils.TakeScreenShot.*;
 
 @Listeners(TestNGListener.class)

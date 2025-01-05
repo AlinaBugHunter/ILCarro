@@ -14,11 +14,14 @@ import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
+import static utils.PropertiesReader.*;
+
 public class HomePage extends BasePage {
 
     public HomePage(WebDriver driver) {
         setDriver(driver);
         driver.get("https://ilcarro.web.app/search");
+        //driver.get(getProperty("login.properties", "url"));
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
@@ -35,7 +38,7 @@ public class HomePage extends BasePage {
     WebElement btnLogIn;
 
     public void clickBtnLogInHeader() {
-    btnLogIn.click();
+        btnLogIn.click();
     }
 
     // SEARCH FORM WITHOUT CALENDAR
@@ -91,7 +94,6 @@ public class HomePage extends BasePage {
         driver.findElement(By.xpath("//div[contains(text(), '" + day + "')]")).click();
         clickWait(btnYalla, 5);
         //inputDates.sendKeys(Keys.ENTER);
-
     }
 
     public String convertNumberToMonth(String month) {
