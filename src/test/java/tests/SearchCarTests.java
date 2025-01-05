@@ -36,4 +36,18 @@ public class SearchCarTests extends ApplicationManager {
         Assert.assertTrue(homePage.isElementPresentDOM("//*[text()=' City is required ']", 3));
     }
 
+    @Test
+    public void searchCarNegativeTest_emptyDate() {
+        homePage = new HomePage(getDriver());
+        homePage.fillSearchCarFormWOCalendar("Haifa", "", "");
+        Assert.assertTrue(homePage.isElementPresentDOM("//*[text()=' Dates are required ']", 3));
+    }
+
+    @Test
+    public void searchCarNegativeTest_invalidDate() {
+        homePage = new HomePage(getDriver());
+        homePage.fillSearchCarFormWOCalendar("Haifa", "02/27/2025", "02/27/2025");
+        Assert.assertTrue(homePage.isElementPresentDOM("//div[@class='ng-star-inserted']", 3));
+    }
+
 }
