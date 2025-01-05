@@ -1,0 +1,6 @@
+ ,Mazda,CX-404,2022,//option[@value='Diesel'],4,A,SN-001,200.50,About my car
+Haifa, ,CX-405,2022,//option[@value='Diesel'],4,A,SN-002,200.51,About my car
+Haifa,Mazda, ,2022,//option[@value='Diesel'],4,A,SN-003,200.52,About my car
+Haifa,Mazda,CX-407, ,//option[@value='Diesel'],4,A,SN-004,200.53,About my car
+Haifa,Mazda,CX-408,2022,//option[@value='Diesel'],4, ,SN-005,200.54,About my car
+Haifa,Mazda,CX-409,2022,//option[@value='Diesel'],4,A, ,200.55,About my car

@@ -82,4 +82,14 @@ public class LetTheCarWorkPage extends BasePage {
         return isTextInElementPresent(popUpMessage, text);
     }
 
+    // ERROR MESSAGE
+
+    @FindBy(xpath = "//div[@class='error ng-star-inserted']")
+    WebElement errorMessage;
+
+    public boolean validateErrorMessage(String text) {
+        pause(2);
+        return isTextInElementPresent(errorMessage, text);
+    }
+
 }

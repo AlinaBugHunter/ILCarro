@@ -63,4 +63,5 @@ public class WDListener extends AbstractWebDriverEventListener {
         super.afterGetText(element, driver, text);
         logger.info("After Get Text -> " + element.getTagName() + " " + text);
     }
+
 }

@@ -8,20 +8,20 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.LetTheCarWorkPage;
 import pages.LogInPage;
 import utils.Fuel;
 import utils.RetryAnalyzer;
 import utils.TestNGListener;
-
-import java.lang.reflect.Method;
 import java.util.Random;
 
 @Listeners(TestNGListener.class)
 
 public class AddNewCarTests extends ApplicationManager {
 
+    SoftAssert softAssert = new SoftAssert();
     LogInPage logInPage;
     LetTheCarWorkPage letTheCarWorkPage;
 
@@ -45,7 +45,6 @@ public class AddNewCarTests extends ApplicationManager {
     @Test
     public void addNewCarPositiveTest() {
         CarDTO car = CarDTO.builder()
-                .serialNumber(new Random().nextInt(1000) + "-055")
                 .city("Haifa")
                 .manufacture("Mazda")
                 .model("CX-90")
@@ -53,6 +52,7 @@ public class AddNewCarTests extends ApplicationManager {
                 .fuel(Fuel.HYBRID.getLocator()) // Returns a string with the locator value
                 .seats(4)
                 .carClass("A")
+                .serialNumber(new Random().nextInt(1000) + "-055")
                 .pricePerDay(123.99)
                 .about("About my car")
                 .build();
@@ -62,32 +62,101 @@ public class AddNewCarTests extends ApplicationManager {
                 .isPopUpMessagePresent(car.getManufacture() + " " + car.getModel() + " added successful"));
     }
 
-    @Test(dataProvider = "CarDPFile", dataProviderClass = CarDP.class)
-    public void addNewCarPositiveTestDP(CarDTO car, Method method) {
-        logger.info(method.getName() + " Start with data -> " + car.toString());
+    @Test(dataProvider = "CarDPFile_emptyFields", dataProviderClass = CarDP.class)
+    public void addNewCarNegative_emptyFields(CarDTO car) {
         letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
         letTheCarWorkPage.typeLetCarWorkForm(car);
-        Assert.assertTrue(letTheCarWorkPage
-                .isPopUpMessagePresent(car.getManufacture() + " " + car.getModel() + " added successful"));
+        if (car.getCity().isEmpty()) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Wrong address"));
+        }
+        if (car.getManufacture().isEmpty()) {
+            softAssert.assertTrue(letTheCarWorkPage.isElementPresentDOM("//*[text()=' Make is required ']", 3));
+        }
+        if (car.getModel().isEmpty()) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Model is required"));
+        }
+        if (car.getYear().isEmpty()) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Year required"));
+        }
+        if (car.getCarClass().isEmpty()) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Car class is required"));
+        }
+        if (car.getSerialNumber().isEmpty()) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Car registration number is required"));
+        }
+        softAssert.assertAll();
+    }
+
+    @Test(dataProvider = "CarDPFile_spaceInFields", dataProviderClass = CarDP.class)
+    public void addNewCarNegativeTest_spaceInFields(CarDTO car) {
+        letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
+        letTheCarWorkPage.typeLetCarWorkForm(car);
+        if (car.getCity().isBlank()) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Wrong address"));
+        }
+        if (car.getManufacture().isBlank()) {
+            softAssert.assertTrue(letTheCarWorkPage.isPopUpMessagePresent("{\"manufacture\":\"must not be blank\"}"));
+        }
+        if (car.getModel().isBlank()) {
+            softAssert.assertTrue(letTheCarWorkPage.isPopUpMessagePresent("{\"model\":\"must not be blank\"}"));
+        }
+        if (car.getYear().isBlank()) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Year required"));
+        }
+        if (car.getCarClass().isBlank()) {
+            softAssert.assertTrue(letTheCarWorkPage.isPopUpMessagePresent("{\"carClass\":\"must not be blank\"}"));
+        }
+        if (car.getSerialNumber().isBlank()) {
+            softAssert.assertTrue(letTheCarWorkPage.isPopUpMessagePresent("{\"serialNumber\":\"must not be blank\"}"));
+        }
+        softAssert.assertAll();
+    }
+
+    @Test(dataProvider = "CarDPFile_invalidSeats", dataProviderClass = CarDP.class)
+    public void addNewCarNegativeTest_invalidSeats(CarDTO car) {
+        letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
+        letTheCarWorkPage.typeLetCarWorkForm(car);
+        if (car.getSeats() < 2) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Car must have min 2 seat"));
+        }
+        if (car.getSeats() > 20) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("To much seats"));
+        }
+        softAssert.assertAll();
+    }
+
+    // TODO: Create a Bug Report
+    // The system doesn't validate price = 0 correctly.
+    @Test(dataProvider = "CarDPFile_invalidPrice", dataProviderClass = CarDP.class)
+    public void addNewCarNegativeTest_invalidPrice(CarDTO car) {
+        letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
+        letTheCarWorkPage.typeLetCarWorkForm(car);
+        if (car.getPricePerDay() <= 0) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("Price must be positive"));
+        }
+        if (car.getPricePerDay() > 1000) {
+            softAssert.assertTrue(letTheCarWorkPage.validateErrorMessage("To much big price"));
+        }
+        softAssert.assertAll();
     }
 
     @Test(retryAnalyzer = RetryAnalyzer.class)
-    public void addNewCarNegativeTest_emptyManufacture() {
+    public void addNewCarNegativeTest_invalidCity() {
         CarDTO car = CarDTO.builder()
-                .serialNumber(new Random().nextInt(1000) + "-055")
-                .city("Haifa")
-                .manufacture("")
+                .city("12351812")
+                .manufacture("Mazda")
                 .model("CX-90")
                 .year("2022")
                 .fuel(Fuel.HYBRID.getLocator())
                 .seats(4)
                 .carClass("A")
+                .serialNumber(new Random().nextInt(1000) + "-055")
                 .pricePerDay(123.99)
                 .about("About my car")
                 .build();
         letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
         letTheCarWorkPage.typeLetCarWorkForm(car);
-        Assert.assertTrue(letTheCarWorkPage.isElementPresentDOM("//*[text()=' Make is required ']", 3));
+        Assert.assertTrue(letTheCarWorkPage.validateErrorMessage("Wrong address"));
     }
 
 }

@@ -1,0 +1,4 @@
+Haifa,Mazda,CX-90,2022,//option[@value='Diesel'],-2,A,SN-001,123.99,About my car
+Haifa,Mazda,CX-90,2022,//option[@value='Diesel'],0,A,SN-002,123.99,About my car
+Haifa,Mazda,CX-90,2022,//option[@value='Diesel'],1,A,SN-003,123.99,About my car
+Haifa,Mazda,CX-90,2022,//option[@value='Diesel'],21,A,SN-004,123.99,About my car
