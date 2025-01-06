@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static utils.PropertiesReader.*;
+
 public class CarDP {
 
     @DataProvider
@@ -79,13 +81,13 @@ public class CarDP {
     }
 
     @DataProvider
-    public Iterator<CarDTO> CarDPFile_invalidSeats() {
+    public Iterator<CarDTO> CarDPFile_properties_invalidSeats() {
 
         List<CarDTO> carList = new ArrayList<>();
         BufferedReader bufferedReader;
 
         try {
-            bufferedReader = new BufferedReader(new FileReader("src/main/resources/DPCar_invalidSeats.csv"));
+            bufferedReader = new BufferedReader(new FileReader("src/main/resources/" + getProperty("login.properties", "fileDPCar")));
             String line = bufferedReader.readLine();
             while (line != null) {
                 String[] splitArray = line.split(",");

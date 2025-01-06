@@ -19,6 +19,7 @@ import utils.TestNGListener;
 
 import java.util.Random;
 
+import static utils.PropertiesReader.*;
 import static utils.TakeScreenShot.*;
 
 @Listeners(TestNGListener.class)
@@ -32,8 +33,8 @@ public class AddNewCarTests extends ApplicationManager {
     @BeforeMethod
     public void login() {
         UserDTO user = UserDTO.builder()
-                .email("testemail@example.com")
-                .password("Password123!")
+                .email(getProperty("login.properties", "email"))
+                .password(getProperty("login.properties", "password"))
                 .build();
         new HomePage(getDriver()).clickBtnLogInHeader();
         logInPage = new LogInPage(getDriver());
@@ -116,7 +117,7 @@ public class AddNewCarTests extends ApplicationManager {
         softAssert.assertAll();
     }
 
-    @Test(dataProvider = "CarDPFile_invalidSeats", dataProviderClass = CarDP.class)
+    @Test(dataProvider = "CarDPFile_properties_invalidSeats", dataProviderClass = CarDP.class)
     public void addNewCarNegativeTest_invalidSeats(CarDTO car) {
         letTheCarWorkPage = new LetTheCarWorkPage(getDriver());
         letTheCarWorkPage.typeLetCarWorkForm(car);
