@@ -31,9 +31,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpPositiveTest() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -47,9 +47,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_emptyName() {
         UserDTO user = UserDTO.builder()
-                .name("")
+                .firstName("")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -62,9 +62,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_emptyLastName() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -77,9 +77,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_emptyEmail() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("")
+                .username("")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -92,9 +92,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_emptyPassword() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -107,9 +107,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_emptyCheckbox() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -123,9 +123,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_invalidEmail_nonExistentDomain() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@lorem.ipsum")
+                .username("test" + randomInt + "@lorem.ipsum")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -138,9 +138,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_invalidEmail_missingAtSymbol() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "example.com")
+                .username("test" + randomInt + "example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -153,9 +153,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_invalidEmail_missingFirstPart() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("@example.com")
+                .username("@example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -168,9 +168,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_emailAlreadyExists() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("testemail@example.com")
+                .username("testemail@example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -183,9 +183,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_invalidPassword_short() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Test999")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -198,9 +198,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_invalidPassword_noUpperCase() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("test999@")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -214,9 +214,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_invalidPassword_noLowerCase() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("TEST999@")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -230,9 +230,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_invalidPassword_noNumber() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Testtest@")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -246,9 +246,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_invalidPassword_noSpecialSymbol() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Test9999")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -262,9 +262,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_nameSpace() {
         UserDTO user = UserDTO.builder()
-                .name(" ")
+                .firstName(" ")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -277,9 +277,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_lastNameSpace() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName(" ")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -292,9 +292,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_emailSpace() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email(" ")
+                .username(" ")
                 .password("Test999!")
                 .build();
         signUpPage = new SignUpPage(getDriver());
@@ -307,9 +307,9 @@ public class SignUpTests extends ApplicationManager {
     @Test
     public void signUpNegativeTest_passwordSpace() {
         UserDTO user = UserDTO.builder()
-                .name("Test")
+                .firstName("Test")
                 .lastName("Test")
-                .email("test" + randomInt + "@example.com")
+                .username("test" + randomInt + "@example.com")
                 .password(" ")
                 .build();
         signUpPage = new SignUpPage(getDriver());

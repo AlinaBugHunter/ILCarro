@@ -27,7 +27,7 @@ public class LogInTests extends ApplicationManager {
     @Test
     public void logInPositiveTest() {
         UserDTO user = UserDTO.builder()
-                .email("testemail@example.com")
+                .username("testemail@example.com")
                 .password("Password123!")
                 .build();
         logInPage = new LogInPage(getDriver());
@@ -38,7 +38,7 @@ public class LogInTests extends ApplicationManager {
     @Test
     public void logInNegativeTest_wrongEmail() {
         UserDTO user = UserDTO.builder()
-                .email("testemailexample.com")
+                .username("testemailexample.com")
                 .password("Password123!")
                 .build();
         logInPage = new LogInPage(getDriver());
@@ -50,7 +50,7 @@ public class LogInTests extends ApplicationManager {
     @Test
     public void logInNegativeTest_wrongPassword() {
         UserDTO user = UserDTO.builder()
-                .email("testemail@example.com")
+                .username("testemail@example.com")
                 .password("Password123")
                 .build();
         logInPage = new LogInPage(getDriver());
@@ -61,7 +61,7 @@ public class LogInTests extends ApplicationManager {
     @Test
     public void logInNegativeTest_emptyEmail() {
         UserDTO user = UserDTO.builder()
-                .email("")
+                .username("")
                 .password("Password123!")
                 .build();
         logInPage = new LogInPage(getDriver());
@@ -72,7 +72,7 @@ public class LogInTests extends ApplicationManager {
     @Test
     public void logInNegativeTest_emptyPassword() {
         UserDTO user = UserDTO.builder()
-                .email("testemail@example.com")
+                .username("testemail@example.com")
                 .password("")
                 .build();
         logInPage = new LogInPage(getDriver());
@@ -83,7 +83,7 @@ public class LogInTests extends ApplicationManager {
     @Test
     public void logInNegativeTest_emptyFields() {
         UserDTO user = UserDTO.builder()
-                .email("")
+                .username("")
                 .password("")
                 .build();
         logInPage = new LogInPage(getDriver());

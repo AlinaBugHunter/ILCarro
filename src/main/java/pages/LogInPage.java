@@ -26,7 +26,7 @@ public class LogInPage extends BasePage {
     WebElement btnYalla;
 
     public void typeLogInForm(UserDTO user) {
-        inputEmail.sendKeys(user.getEmail());
+        inputEmail.sendKeys(user.getUsername());
         inputPassword.sendKeys(user.getPassword());
         btnYalla.click();
     }
