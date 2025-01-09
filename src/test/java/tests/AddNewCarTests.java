@@ -33,7 +33,7 @@ public class AddNewCarTests extends ApplicationManager {
     @BeforeMethod
     public void login() {
         UserDTO user = UserDTO.builder()
-                .username(getProperty("login.properties", "email"))
+                .username(getProperty("login.properties", "username"))
                 .password(getProperty("login.properties", "password"))
                 .build();
         new HomePage(getDriver()).clickBtnLogInHeader();
