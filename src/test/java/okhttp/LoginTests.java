@@ -123,6 +123,7 @@ public class LoginTests implements BaseAPI {
 
         RequestBody requestBody = RequestBody.create(GSON.toJson(user), JSON);
         Request request = new Request.Builder().url(BASE_URL + LOGIN).post(requestBody).build();
+
         Response response;
         try {
             response = OK_HTTP_CLIENT.newCall(request).execute();
