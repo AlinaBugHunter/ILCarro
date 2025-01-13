@@ -21,7 +21,7 @@ public class AddNewCarTests implements BaseAPI {
     TokenDTO tokenDTO;
     int i = new Random().nextInt(10000);
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void login() {
         UserDTO user = UserDTO.builder()
                 .username(getProperty("login.properties", "username"))

@@ -1,7 +1,6 @@
 package okhttp;
 
 import dto.CarsDTO;
-import dto.ResponseMessageDTO;
 import dto.TokenDTO;
 import dto.UserDTO;
 import okhttp3.Request;
@@ -14,7 +13,6 @@ import org.testng.asserts.SoftAssert;
 import utils.BaseAPI;
 
 import java.io.IOException;
-import java.util.Random;
 
 import static utils.PropertiesReader.getProperty;
 
@@ -22,7 +20,6 @@ public class GetUserCarsTests implements BaseAPI {
 
     SoftAssert softAssert = new SoftAssert();
     TokenDTO tokenDTO;
-    int i = new Random().nextInt(10000);
 
     @BeforeClass
     public void login() {
