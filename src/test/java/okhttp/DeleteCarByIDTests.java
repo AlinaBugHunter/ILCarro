@@ -1,15 +1,13 @@
 package okhttp;
 
-import dto.CarDTO_API;
-import dto.CarsDTO;
-import dto.TokenDTO;
-import dto.UserDTO;
+import dto.*;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import utils.BaseAPI;
 
 import java.io.IOException;
@@ -18,6 +16,7 @@ import static utils.PropertiesReader.getProperty;
 
 public class DeleteCarByIDTests implements BaseAPI {
 
+    SoftAssert softAssert = new SoftAssert();
     TokenDTO tokenDTO;
 
     @BeforeClass
@@ -69,6 +68,8 @@ public class DeleteCarByIDTests implements BaseAPI {
 
     }
 
+    // Status Code: 200
+
     @Test
     public void deleteCarByID() {
 
@@ -94,6 +95,130 @@ public class DeleteCarByIDTests implements BaseAPI {
             }
         } catch (IOException e) {
             Assert.fail("Created Exception -> deleteCarByID()");
+        }
+
+    }
+
+    // Status Code: 400
+
+    @Test
+    public void deleteCarByID_400_invalidSerialNumber() {
+
+        String serialNumber = "777-777";
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + DELETE_CAR_BY_ID + serialNumber)
+                .addHeader(AUTH, tokenDTO.getAccessToken())
+                .delete()
+                .build();
+
+        try (Response response = OK_HTTP_CLIENT.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
+                softAssert.assertEquals(response.code(), 400);
+                softAssert.assertTrue(errorMessageDTO.getError().equals("Bad Request"));
+                softAssert.assertTrue(errorMessageDTO.getMessage().equals("Car with serial number " + serialNumber + " not found"));
+                softAssert.assertAll();
+            } else {
+                Assert.fail("Response Status Code -> " + response.code());
+            }
+        } catch (IOException e) {
+            Assert.fail("Created Exception -> deleteCarByID_400_invalidSerialNumber()");
+        }
+
+    }
+
+    // Status Code: 401
+
+    @Test
+    public void deleteCarByID_401_Unauthorized() {
+
+        CarDTO_API[] arrayCarDTO_API = getUserCars();
+        String serialNumberOfFirstElement = "";
+        if (arrayCarDTO_API != null) {
+            serialNumberOfFirstElement = arrayCarDTO_API[0].getSerialNumber();
+        } else {
+            Assert.fail("Method GET returned null");
+        }
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + DELETE_CAR_BY_ID + serialNumberOfFirstElement)
+                .addHeader(AUTH, tokenDTO.getAccessToken() + "invalidToken")
+                .delete()
+                .build();
+
+        try (Response response = OK_HTTP_CLIENT.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
+                softAssert.assertEquals(response.code(), 401);
+                softAssert.assertEquals(errorMessageDTO.getError(), "Unauthorized");
+                softAssert.assertEquals(errorMessageDTO.getMessage(), "JWT signature does not match locally " +
+                        "computed signature. JWT validity cannot be asserted and should not be trusted.");
+                softAssert.assertAll();
+            } else {
+                Assert.fail("Response Status Code -> " + response.code());
+            }
+        } catch (IOException e) {
+            Assert.fail("Created Exception -> deleteCarByID_401_Unauthorized()");
+        }
+
+    }
+
+    // Status Code: 403
+
+    @Test
+    public void deleteCarByID_403_WOHeaders() {
+
+        CarDTO_API[] arrayCarDTO_API = getUserCars();
+        String serialNumberOfFirstElement = "";
+        if (arrayCarDTO_API != null) {
+            serialNumberOfFirstElement = arrayCarDTO_API[0].getSerialNumber();
+        } else {
+            Assert.fail("Method GET returned null");
+        }
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + DELETE_CAR_BY_ID + serialNumberOfFirstElement)
+                .delete()
+                .build();
+
+        try (Response response = OK_HTTP_CLIENT.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                Assert.assertEquals(response.code(), 403);
+            } else {
+                Assert.fail("Response Status Code -> " + response.code());
+            }
+        } catch (IOException e) {
+            Assert.fail("Created Exception -> deleteCarByID_403_WOHeaders()");
+        }
+
+    }
+
+    @Test
+    public void deleteCarByID_403_invalidRequestMethod() {
+
+        CarDTO_API[] arrayCarDTO_API = getUserCars();
+        String serialNumberOfFirstElement = "";
+        if (arrayCarDTO_API != null) {
+            serialNumberOfFirstElement = arrayCarDTO_API[0].getSerialNumber();
+        } else {
+            Assert.fail("Method GET returned null");
+        }
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + DELETE_CAR_BY_ID + serialNumberOfFirstElement)
+                .addHeader(AUTH, tokenDTO.getAccessToken())
+                .get()
+                .build();
+
+        try (Response response = OK_HTTP_CLIENT.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                Assert.assertEquals(response.code(), 403);
+            } else {
+                Assert.fail("Response Status Code -> " + response.code());
+            }
+        } catch (IOException e) {
+            Assert.fail("Created Exception -> deleteCarByID_403_invalidRequestMethod()");
         }
 
     }
