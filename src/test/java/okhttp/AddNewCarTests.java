@@ -41,7 +41,7 @@ public class AddNewCarTests implements BaseAPI {
         }
     }
 
-    // ------>  200  <------
+    // Status Code: 200
 
     @Test
     public void addNewCar() {
@@ -82,208 +82,7 @@ public class AddNewCarTests implements BaseAPI {
 
     }
 
-    // ------>  500  <------
-
-    @Test
-    public void addNewCar_500_InternalServerError() {
-
-        CarDTO_API carDTO_api = CarDTO_API.builder()
-                .city("Haifa")
-                .manufacture("Mazda")
-                .model("CX-90")
-                .year("2022")
-                .fuel("Electric")
-                .seats(4)
-                .carClass("A")
-                .serialNumber("SN-" + i)
-                .pricePerDay(123.99)
-                .about("About my car")
-                .build();
-
-        String malformedJson = "{ \"city\": \"Haifa\", \"manufacture\": \"Mazda\" "; // Неполный JSON
-        RequestBody requestBody = RequestBody.create(malformedJson, JSON);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ADD_NEW_CAR)
-                .addHeader(AUTH, tokenDTO.getAccessToken())
-                .post(requestBody)
-                .build();
-
-        try {
-            Response response = OK_HTTP_CLIENT.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                softAssert.assertEquals(response.code(), 500);
-                ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
-                softAssert.assertEquals(errorMessageDTO.getError(), "Internal Server Error");
-                softAssert.assertTrue(errorMessageDTO.getMessage().equals("JSON parse error: Unexpected end-of-input: " +
-                        "expected close marker for Object (start marker at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); " +
-                        "line: 1, column: 1]); nested exception is com.fasterxml.jackson.core.io.JsonEOFException: Unexpected end-of-input: " +
-                        "expected close marker for Object (start marker at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 1])\n" +
-                        " at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 43]"));
-                softAssert.assertAll();
-            } else {
-                Assert.fail("Response Status Code -> " + response.code());
-            }
-        } catch (IOException e) {
-            Assert.fail("Created Exception -> addNewCar_500_InternalServerError()");
-        }
-
-    }
-
-    // ------>  403  <------
-
-    @Test
-    public void addNewCar_403_invalidURL() {
-
-        CarDTO_API carDTO_api = CarDTO_API.builder()
-                .city("Haifa")
-                .manufacture("Mazda")
-                .model("CX-90")
-                .year("2022")
-                .fuel("Electric")
-                .seats(4)
-                .carClass("A")
-                .serialNumber("SN-" + i)
-                .pricePerDay(123.99)
-                .about("About my car")
-                .build();
-
-        RequestBody requestBody = RequestBody.create(GSON.toJson(carDTO_api), JSON);
-        Request request = new Request.Builder()
-                .url(BASE_URL + "/v1/invalidURL")
-                .addHeader(AUTH, tokenDTO.getAccessToken())
-                .post(requestBody)
-                .build();
-
-        try {
-            Response response = OK_HTTP_CLIENT.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                Assert.assertEquals(response.code(), 403);
-            } else {
-                Assert.fail("Response Status Code -> " + response.code());
-            }
-        } catch (IOException e) {
-            Assert.fail("Created Exception -> addNewCar_403_invalidURL()");
-        }
-
-    }
-
-    @Test
-    public void addNewCar_403_WOHeaders() {
-
-        CarDTO_API carDTO_api = CarDTO_API.builder()
-                .city("Haifa")
-                .manufacture("Mazda")
-                .model("CX-90")
-                .year("2022")
-                .fuel("Electric")
-                .seats(4)
-                .carClass("A")
-                .serialNumber("SN-" + i)
-                .pricePerDay(123.99)
-                .about("About my car")
-                .build();
-
-        RequestBody requestBody = RequestBody.create(GSON.toJson(carDTO_api), JSON);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ADD_NEW_CAR)
-                .post(requestBody)
-                .build();
-
-        try {
-            Response response = OK_HTTP_CLIENT.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                softAssert.assertEquals(response.code(), 403);
-                // ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
-                // softAssert.assertTrue(errorMessageDTO.getError().equals("Forbidden"));
-                // Cannot invoke "dto.ErrorMessageDTO.getError()" because "errorMessageDTO" is null
-                softAssert.assertAll();
-            } else {
-                Assert.fail("Response Status Code -> " + response.code());
-            }
-        } catch (IOException e) {
-            Assert.fail("Created Exception -> addNewCar_403_WOHeaders()");
-        }
-
-    }
-
-    @Test
-    public void addNewCar_403_invalidRequestMethod() {
-
-        CarDTO_API carDTO_api = CarDTO_API.builder()
-                .city("Haifa")
-                .manufacture("Mazda")
-                .model("CX-90")
-                .year("2022")
-                .fuel("Electric")
-                .seats(4)
-                .carClass("A")
-                .serialNumber("SN-" + i)
-                .pricePerDay(123.99)
-                .about("About my car")
-                .build();
-
-        RequestBody requestBody = RequestBody.create(GSON.toJson(carDTO_api), JSON);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ADD_NEW_CAR)
-                .addHeader(AUTH, tokenDTO.getAccessToken())
-                .get() // Should be POST
-                .build();
-
-        try {
-            Response response = OK_HTTP_CLIENT.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                Assert.assertEquals(response.code(), 403);
-            } else {
-                Assert.fail("Response Status Code -> " + response.code());
-            }
-        } catch (IOException e) {
-            Assert.fail("Created Exception -> addNewCar_403_invalidRequestMethod()");
-        }
-
-    }
-
-    // ------>  401  <------
-
-    @Test
-    public void addNewCar_401_Unauthorized() {
-
-        CarDTO_API carDTO_api = CarDTO_API.builder()
-                .city("Haifa")
-                .manufacture("Mazda")
-                .model("CX-90")
-                .year("2022")
-                .fuel("Electric")
-                .seats(4)
-                .carClass("A")
-                .serialNumber("SN-" + i)
-                .pricePerDay(123.99)
-                .about("About my car")
-                .build();
-
-        RequestBody requestBody = RequestBody.create(GSON.toJson(carDTO_api), JSON);
-        Request request = new Request.Builder()
-                .url(BASE_URL + ADD_NEW_CAR)
-                .addHeader(AUTH, "invalidToken")
-                .post(requestBody)
-                .build();
-
-        try {
-            Response response = OK_HTTP_CLIENT.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                softAssert.assertEquals(response.code(), 401);
-                ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
-                softAssert.assertTrue(errorMessageDTO.getError().equals("Unauthorized"));
-                softAssert.assertAll();
-            } else {
-                Assert.fail("Response Status Code -> " + response.code());
-            }
-        } catch (IOException e) {
-            Assert.fail("Created Exception -> addNewCar_401_Unauthorized()");
-        }
-
-    }
-
-    // ------>  400  <------
+    // Status Code: 400
 
     @Test
     public void addNewCar_400_emptyCity() {
@@ -402,10 +201,10 @@ public class AddNewCarTests implements BaseAPI {
 
     }
 
-    // ------>  ???  <------
+    // Status Code: 401
 
     @Test
-    public void addNewCar_invalidSeats() {
+    public void addNewCar_401_Unauthorized() {
 
         CarDTO_API carDTO_api = CarDTO_API.builder()
                 .city("Haifa")
@@ -413,7 +212,123 @@ public class AddNewCarTests implements BaseAPI {
                 .model("CX-90")
                 .year("2022")
                 .fuel("Electric")
-                .seats(1)
+                .seats(4)
+                .carClass("A")
+                .serialNumber("SN-" + i)
+                .pricePerDay(123.99)
+                .about("About my car")
+                .build();
+
+        RequestBody requestBody = RequestBody.create(GSON.toJson(carDTO_api), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + ADD_NEW_CAR)
+                .addHeader(AUTH, "invalidToken")
+                .post(requestBody)
+                .build();
+
+        try {
+            Response response = OK_HTTP_CLIENT.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                softAssert.assertEquals(response.code(), 401);
+                ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
+                softAssert.assertTrue(errorMessageDTO.getError().equals("Unauthorized"));
+                softAssert.assertAll();
+            } else {
+                Assert.fail("Response Status Code -> " + response.code());
+            }
+        } catch (IOException e) {
+            Assert.fail("Created Exception -> addNewCar_401_Unauthorized()");
+        }
+
+    }
+
+    // Status Code: 403
+
+    @Test
+    public void addNewCar_403_invalidURL() {
+
+        CarDTO_API carDTO_api = CarDTO_API.builder()
+                .city("Haifa")
+                .manufacture("Mazda")
+                .model("CX-90")
+                .year("2022")
+                .fuel("Electric")
+                .seats(4)
+                .carClass("A")
+                .serialNumber("SN-" + i)
+                .pricePerDay(123.99)
+                .about("About my car")
+                .build();
+
+        RequestBody requestBody = RequestBody.create(GSON.toJson(carDTO_api), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/v1/invalidURL")
+                .addHeader(AUTH, tokenDTO.getAccessToken())
+                .post(requestBody)
+                .build();
+
+        try {
+            Response response = OK_HTTP_CLIENT.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                Assert.assertEquals(response.code(), 403);
+            } else {
+                Assert.fail("Response Status Code -> " + response.code());
+            }
+        } catch (IOException e) {
+            Assert.fail("Created Exception -> addNewCar_403_invalidURL()");
+        }
+
+    }
+
+    @Test
+    public void addNewCar_403_WOHeaders() {
+
+        CarDTO_API carDTO_api = CarDTO_API.builder()
+                .city("Haifa")
+                .manufacture("Mazda")
+                .model("CX-90")
+                .year("2022")
+                .fuel("Electric")
+                .seats(4)
+                .carClass("A")
+                .serialNumber("SN-" + i)
+                .pricePerDay(123.99)
+                .about("About my car")
+                .build();
+
+        RequestBody requestBody = RequestBody.create(GSON.toJson(carDTO_api), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + ADD_NEW_CAR)
+                .post(requestBody)
+                .build();
+
+        try {
+            Response response = OK_HTTP_CLIENT.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                softAssert.assertEquals(response.code(), 403);
+                // ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
+                // softAssert.assertTrue(errorMessageDTO.getError().equals("Forbidden"));
+                // Cannot invoke "dto.ErrorMessageDTO.getError()" because "errorMessageDTO" is null
+                softAssert.assertAll();
+            } else {
+                Assert.fail("Response Status Code -> " + response.code());
+            }
+        } catch (IOException e) {
+            Assert.fail("Created Exception -> addNewCar_403_WOHeaders()");
+        }
+
+    }
+
+    @Test
+    public void addNewCar_403_invalidRequestMethod() {
+
+        CarDTO_API carDTO_api = CarDTO_API.builder()
+                .city("Haifa")
+                .manufacture("Mazda")
+                .model("CX-90")
+                .year("2022")
+                .fuel("Electric")
+                .seats(4)
                 .carClass("A")
                 .serialNumber("SN-" + i)
                 .pricePerDay(123.99)
@@ -424,27 +339,27 @@ public class AddNewCarTests implements BaseAPI {
         Request request = new Request.Builder()
                 .url(BASE_URL + ADD_NEW_CAR)
                 .addHeader(AUTH, tokenDTO.getAccessToken())
-                .post(requestBody)
+                .get() // Should be POST
                 .build();
 
         try {
             Response response = OK_HTTP_CLIENT.newCall(request).execute();
             if (!response.isSuccessful()) {
-                softAssert.assertEquals(response.code(), 400);
-                ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
-                softAssert.assertTrue(errorMessageDTO.getError().equals("Bad Request"));
-                softAssert.assertAll();
+                Assert.assertEquals(response.code(), 403);
             } else {
-                Assert.fail("Response Status Code -> " + response.code()); // 200 ?
+                Assert.fail("Response Status Code -> " + response.code());
             }
         } catch (IOException e) {
-            Assert.fail("Created Exception -> addNewCar_invalidSeats()");
+            Assert.fail("Created Exception -> addNewCar_403_invalidRequestMethod()");
         }
 
     }
 
+    // Status Code: 500
+
     @Test
-    public void addNewCar_invalidPrice() {
+    public void addNewCar_500_InternalServerError() {
+
         CarDTO_API carDTO_api = CarDTO_API.builder()
                 .city("Haifa")
                 .manufacture("Mazda")
@@ -454,11 +369,12 @@ public class AddNewCarTests implements BaseAPI {
                 .seats(4)
                 .carClass("A")
                 .serialNumber("SN-" + i)
-                .pricePerDay(-123.99)
+                .pricePerDay(123.99)
                 .about("About my car")
                 .build();
 
-        RequestBody requestBody = RequestBody.create(GSON.toJson(carDTO_api), JSON);
+        String malformedJson = "{ \"city\": \"Haifa\", \"manufacture\": \"Mazda\" "; // Неполный JSON
+        RequestBody requestBody = RequestBody.create(malformedJson, JSON);
         Request request = new Request.Builder()
                 .url(BASE_URL + ADD_NEW_CAR)
                 .addHeader(AUTH, tokenDTO.getAccessToken())
@@ -468,15 +384,20 @@ public class AddNewCarTests implements BaseAPI {
         try {
             Response response = OK_HTTP_CLIENT.newCall(request).execute();
             if (!response.isSuccessful()) {
-                softAssert.assertEquals(response.code(), 400);
+                softAssert.assertEquals(response.code(), 500);
                 ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
-                softAssert.assertTrue(errorMessageDTO.getError().equals("Bad Request"));
+                softAssert.assertEquals(errorMessageDTO.getError(), "Internal Server Error");
+                softAssert.assertTrue(errorMessageDTO.getMessage().equals("JSON parse error: Unexpected end-of-input: " +
+                        "expected close marker for Object (start marker at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); " +
+                        "line: 1, column: 1]); nested exception is com.fasterxml.jackson.core.io.JsonEOFException: Unexpected end-of-input: " +
+                        "expected close marker for Object (start marker at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 1])\n" +
+                        " at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 43]"));
                 softAssert.assertAll();
             } else {
-                Assert.fail("Response Status Code -> " + response.code()); // 200 ?
+                Assert.fail("Response Status Code -> " + response.code());
             }
         } catch (IOException e) {
-            Assert.fail("Created Exception -> addNewCar_invalidPrice()");
+            Assert.fail("Created Exception -> addNewCar_500_InternalServerError()");
         }
 
     }

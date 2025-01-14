@@ -1,8 +1,6 @@
 package okhttp;
 
-import dto.ErrorMessageDTO;
-import dto.TokenDTO;
-import dto.UserDTO;
+import dto.*;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -19,39 +17,10 @@ public class RegistrationTests implements BaseAPI {
     SoftAssert softAssert = new SoftAssert();
     int randomInt = new Random().nextInt(1000) + 1000;
 
+    // Status Code: 200
+
     @Test
     public void registration() {
-
-        UserDTO user = UserDTO.builder()
-                .firstName("Test")
-                .lastName("Test")
-                .username("test" + randomInt + "@example.com")
-                .password("Test999!")
-                .build();
-
-        RequestBody requestBody = RequestBody.create(GSON.toJson(user), JSON);
-        Request request = new Request.Builder().url(BASE_URL + REGISTRATION).post(requestBody).build();
-        Response response;
-        try {
-            response = OK_HTTP_CLIENT.newCall(request).execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println(response.isSuccessful());
-        System.out.println(response.toString());
-        try {
-            System.out.println(response.body().string());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Assert.assertEquals(response.code(), 200);
-
-    }
-
-    @Test
-    public void registration_validateToken() {
 
         UserDTO user = UserDTO.builder()
                 .firstName("Test")
@@ -65,19 +34,20 @@ public class RegistrationTests implements BaseAPI {
         try (Response response = OK_HTTP_CLIENT.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 TokenDTO tokenDTO = GSON.fromJson(response.body().string(), TokenDTO.class);
-                System.out.println(tokenDTO.toString());
-                Assert.assertFalse(tokenDTO.getAccessToken().isBlank());
+                softAssert.assertEquals(response.code(), 200);
+                softAssert.assertFalse(tokenDTO.getAccessToken().isBlank());
+                softAssert.assertAll();
             } else {
-                ErrorMessageDTO errorMessageDTO = GSON.fromJson(response.body().string(), ErrorMessageDTO.class);
-                System.out.println(errorMessageDTO.toString());
                 Assert.fail("Response Status Code -> " + response.code());
             }
         } catch (IOException e) {
-            Assert.fail("Created Exception -> registration_validateToken()");
+            Assert.fail("Created Exception -> registration()");
             throw new RuntimeException(e);
         }
 
     }
+
+    // Status Code: 400
 
     @Test
     public void registration_400_emptyFirstName() {
@@ -298,6 +268,8 @@ public class RegistrationTests implements BaseAPI {
 
     }
 
+    // Status Code: 403
+
     @Test
     public void registration_403_invalidURL() {
 
@@ -310,22 +282,17 @@ public class RegistrationTests implements BaseAPI {
 
         RequestBody requestBody = RequestBody.create(GSON.toJson(user), JSON);
         Request request = new Request.Builder().url(BASE_URL + "/v1/user/registration").post(requestBody).build();
-        Response response;
-        try {
-            response = OK_HTTP_CLIENT.newCall(request).execute();
+
+        try (Response response = OK_HTTP_CLIENT.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                Assert.assertEquals(response.code(), 403);
+            } else {
+                Assert.fail("Response Status Code -> " + response.code());
+            }
         } catch (IOException e) {
+            Assert.fail("Created Exception -> registration_403_invalidURL()");
             throw new RuntimeException(e);
         }
-
-        System.out.println(response.isSuccessful());
-        System.out.println(response.toString());
-        try {
-            System.out.println(response.body().string());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Assert.assertEquals(response.code(), 403);
 
     }
 

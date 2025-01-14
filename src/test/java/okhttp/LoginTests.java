@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class LoginTests implements BaseAPI {
 
+    // Status Code: 200
+
     @Test
     public void login() {
 
@@ -37,6 +39,8 @@ public class LoginTests implements BaseAPI {
         Assert.assertEquals(response.code(), 200);
 
     }
+
+    // Status Code: 401
 
     @Test
     public void login_401_emptyUsername() {

@@ -5,7 +5,11 @@
     <test name="smoketests">
 
         <classes>
+            <class name="okhttp.RegistrationTests"/>
+            <class name="okhttp.LoginTests"/>
             <class name="okhttp.AddNewCarTests"/>
+            <class name="okhttp.GetUserCarsTests"/>
+            <class name="okhttp.DeleteCarByIDTests"/>
         </classes>
 
     </test>
