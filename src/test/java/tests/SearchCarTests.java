@@ -17,7 +17,7 @@ public class SearchCarTests extends ApplicationManager {
 
     HomePage homePage;
 
-    @Test
+    @Test(groups = "smoke")
     public void searchCarPositiveTest_WOCalendar() {
         homePage = new HomePage(getDriver());
         homePage.fillSearchCarFormWOCalendar("Haifa", "02/27/2025", "02/28/2025");

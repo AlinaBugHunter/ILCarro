@@ -4,12 +4,24 @@
 
     <test name="smoketests">
 
+<!--        <groups>-->
+<!--            <run>-->
+<!--                <include name="smoke"/>-->
+<!--                <exclude name="positive"/>-->
+<!--            </run>-->
+<!--        </groups>-->
+
         <classes>
+
             <class name="okhttp.RegistrationTests"/>
             <class name="okhttp.LoginTests"/>
             <class name="okhttp.AddNewCarTests"/>
             <class name="okhttp.GetUserCarsTests"/>
             <class name="okhttp.DeleteCarByIDTests"/>
+
+            <class name="tests.LogInTests"/>
+            <class name="tests.SearchCarTests"/>
+
         </classes>
 
     </test>

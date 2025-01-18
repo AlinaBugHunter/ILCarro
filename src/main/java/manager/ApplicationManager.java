@@ -23,7 +23,7 @@ public class ApplicationManager {
 
     public Logger logger = LoggerFactory.getLogger(ApplicationManager.class);
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp(Method method) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--lang=en");
@@ -33,11 +33,11 @@ public class ApplicationManager {
         driver.register(new WDListener());
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown(Method method) {
-//        if (driver != null) {
-//            driver.quit();
-//        }
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
 }

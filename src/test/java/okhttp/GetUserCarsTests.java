@@ -19,7 +19,7 @@ public class GetUserCarsTests implements BaseAPI {
     SoftAssert softAssert = new SoftAssert();
     TokenDTO tokenDTO;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void login() {
 
         UserDTO user = UserDTO.builder()

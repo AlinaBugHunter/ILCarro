@@ -19,12 +19,12 @@ public class LogInTests extends ApplicationManager {
 
     LogInPage logInPage;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void clickLogInHeader() {
         new HomePage(getDriver()).clickBtnLogInHeader();
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void logInPositiveTest() {
         UserDTO user = UserDTO.builder()
                 .username("testemail@example.com")

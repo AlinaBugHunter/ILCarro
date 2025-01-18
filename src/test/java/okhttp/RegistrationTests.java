@@ -19,7 +19,7 @@ public class RegistrationTests implements BaseAPI {
 
     // Status Code: 200
 
-    @Test
+    @Test(groups = { "smoke", "positive" })
     public void registration() {
 
         UserDTO user = UserDTO.builder()

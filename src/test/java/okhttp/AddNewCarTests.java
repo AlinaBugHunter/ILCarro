@@ -43,7 +43,7 @@ public class AddNewCarTests implements BaseAPI {
 
     // Status Code: 200
 
-    @Test
+    @Test(groups = { "smoke", "positive" })
     public void addNewCar() {
 
         CarDTO_API carDTO_api = CarDTO_API.builder()
